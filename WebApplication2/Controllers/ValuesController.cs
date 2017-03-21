@@ -14,16 +14,16 @@ namespace WebApplication2.Controllers
         /// <summary>
         /// Scraps heading from Google.com with respect to a parameter
         /// </summary>
+        /// <param name="start"></param>
         /// <param name="query">
         /// Here query is your respective search query of Google
         /// </param>
-        /// <param name="start"></param>
         /// <returns>
         /// List<string/> | Scrapped Headings
         /// </returns>
-        internal static IEnumerable<ScrapModel> ScrapHtml(string query, int start)
+        internal static IEnumerable<ScrapModel> ScrapHtml(int start, string query)
         {
-            var url = "https://www.google.com/search?q="+query +" &start="+start;
+            string url = $"{EndPoints.BasicUrlGoogle}{query} &start={start}";
             var web = new HtmlWeb();
             var doc = web.Load(url);
 
@@ -45,9 +45,7 @@ namespace WebApplication2.Controllers
         /// <returns>List of Items Scrapped</returns>
         public IEnumerable<ScrapModel> Get([FromUri] string q, [FromUri] int start)
         {
-
-            //&start=70
-            return ScrapHtml(q, start);
+            return ScrapHtml(start, q);
         }
 
         // GET api/values/5
